@@ -30,3 +30,4 @@ jobs:
         run: |
           npx --yes skills-ref@0.1.5 validate skills/spacex-simplify
           npx --yes skills-ref@0.1.5 validate skills/quiz-me
+          npx --yes skills-ref@0.1.5 validate skills/simple-technical-english

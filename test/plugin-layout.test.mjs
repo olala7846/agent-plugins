@@ -40,9 +40,7 @@ test('declares the expected Agent Plugin manifest', () => {
     repository: 'https://github.com/olala7846/agent-plugins',
     license: 'ISC',
     keywords: ['agent-plugin', 'agent-skills', 'software-engineering'],
-    extensions: {
-      'com.openai.codex': { pluginRoot: './com.openai.codex' },
-    },
+    extensions: {},
   });
 });
 
@@ -69,40 +67,10 @@ test('does not retain the legacy installer or an MCP component', () => {
     'eslint.config.js',
     '.lintstagedrc',
     '.husky/pre-commit',
-    '.agents/plugins/marketplace.json',
-    '.codex-plugin/plugin.json',
+    'com.openai.codex',
     'mcp.json',
     'cli-usage.png',
   ]) {
     assert.equal(existsSync(pathFromRoot(path)), false, `${path} must be absent`);
-  }
-});
-
-test('is installable from its Codex marketplace', () => {
-  const codexManifest = JSON.parse(
-    readFileSync(pathFromRoot('com.openai.codex/.codex-plugin/plugin.json'), 'utf8'),
-  );
-  const marketplace = JSON.parse(
-    readFileSync(pathFromRoot('com.openai.codex/.agents/plugins/marketplace.json'), 'utf8'),
-  );
-
-  assert.equal(codexManifest.name, 'olala7846-agent-plugins');
-  assert.equal(codexManifest.skills, './skills/');
-  assert.deepEqual(marketplace.plugins, [
-    {
-      name: 'olala7846-agent-plugins',
-      source: { source: 'local', path: './' },
-      policy: { installation: 'AVAILABLE', authentication: 'ON_INSTALL' },
-      category: 'Productivity',
-    },
-  ]);
-
-  for (const skillName of ['quiz-me', 'spacex-simplify']) {
-    const extensionSkill = assertAgentSkill(
-      pathFromRoot(`com.openai.codex/skills/${skillName}/SKILL.md`),
-      skillName,
-    );
-    const rootSkill = readFileSync(pathFromRoot(`skills/${skillName}/SKILL.md`), 'utf8');
-    assert.equal(extensionSkill, rootSkill);
   }
 });

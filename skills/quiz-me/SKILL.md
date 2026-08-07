@@ -15,7 +15,7 @@ Read enough surrounding code to explain behavioral consequences, not merely the 
 
 ## HTML change report
 
-Before the first quiz round, give the user a self-contained HTML report. Return it as HTML in the response; create a `.html` file only when the user asks for a saved artifact or names a destination.
+Before the first quiz round, write a self-contained HTML report to a unique temporary file under `/tmp`. Use `mktemp /tmp/quiz-me-XXXXXX.html` when shell access is available; otherwise choose a non-overwriting `/tmp/quiz-me-<timestamp>.html` path. Return the file path and a short summary in the conversation, not the full HTML.
 
 The report must contain:
 
@@ -26,7 +26,7 @@ The report must contain:
 5. A short "What this does not change" section.
 6. A preview of the quiz scope, without revealing the answers.
 
-Use semantic HTML with headings, lists, tables where useful, and accessible labels. Keep it self-contained: no external scripts, stylesheets, tracking, or embedded secrets. Make the report readable for someone who did not author the change.
+Use semantic HTML with headings, lists, tables where useful, and accessible labels. Keep it self-contained: no external scripts, stylesheets, tracking, or embedded secrets. Make the report readable for someone who did not author the change. Treat the file as disposable: never add it to the repository or commit it. If `/tmp` is unavailable, ask the user for a destination instead of pasting the full report into the conversation.
 
 ## Adaptive quiz loop
 

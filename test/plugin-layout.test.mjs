@@ -48,7 +48,7 @@ test('contains only immediately discoverable, complete skills', () => {
   const skillsRoot = pathFromRoot('skills');
   const entries = readdirSync(skillsRoot, { withFileTypes: true });
 
-  const skillNames = ['quiz-me', 'spacex-simplify'];
+  const skillNames = ['quiz-me', 'simple-technical-english', 'spacex-simplify'];
   assert.deepEqual(entries.map((entry) => entry.name).sort(), skillNames);
   assert.ok(entries.every((entry) => entry.isDirectory()));
 

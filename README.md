@@ -5,6 +5,7 @@ A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained
 ## Included skills
 
 - [`quiz-me`](skills/quiz-me/SKILL.md): writes an evidence-based HTML change report to a temporary file, then adaptively quizzes the user with a transparent scorecard before they merge or declare substantial work complete.
+- [`simple-technical-english`](skills/simple-technical-english/SKILL.md): passively guides concise, consistent plain technical English in development conversations and documents.
 - [`spacex-simplify`](skills/spacex-simplify/SKILL.md): applies a SpaceX-inspired engineering review loop to plans, pull requests, specifications, code changes, and architecture proposals.
 
 ## Usage
@@ -29,6 +30,7 @@ npx --yes ajv-cli@5.0.0 validate --spec=draft2020 \
   -s /tmp/plugin.schema.json -d plugin.json
 node --test test/plugin-layout.test.mjs
 npx --yes skills-ref@0.1.5 validate skills/quiz-me
+npx --yes skills-ref@0.1.5 validate skills/simple-technical-english
 npx --yes skills-ref@0.1.5 validate skills/spacex-simplify
 ```
 

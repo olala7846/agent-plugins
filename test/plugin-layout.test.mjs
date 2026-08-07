@@ -50,11 +50,14 @@ test('contains only immediately discoverable, complete skills', () => {
   const skillsRoot = pathFromRoot('skills');
   const entries = readdirSync(skillsRoot, { withFileTypes: true });
 
-  assert.deepEqual(entries.map((entry) => entry.name).sort(), ['spacex-simplify']);
+  const skillNames = ['quiz-me', 'spacex-simplify'];
+  assert.deepEqual(entries.map((entry) => entry.name).sort(), skillNames);
   assert.ok(entries.every((entry) => entry.isDirectory()));
-  assert.ok(existsSync(join(skillsRoot, 'spacex-simplify', 'SKILL.md')));
 
-  assertAgentSkill(join(skillsRoot, 'spacex-simplify', 'SKILL.md'), 'spacex-simplify');
+  for (const skillName of skillNames) {
+    assert.ok(existsSync(join(skillsRoot, skillName, 'SKILL.md')));
+    assertAgentSkill(join(skillsRoot, skillName, 'SKILL.md'), skillName);
+  }
 });
 
 test('does not retain the legacy installer or an MCP component', () => {
@@ -94,10 +97,12 @@ test('is installable from its Codex marketplace', () => {
     },
   ]);
 
-  const extensionSkill = assertAgentSkill(
-    pathFromRoot('com.openai.codex/skills/spacex-simplify/SKILL.md'),
-    'spacex-simplify',
-  );
-  const rootSkill = readFileSync(pathFromRoot('skills/spacex-simplify/SKILL.md'), 'utf8');
-  assert.equal(extensionSkill, rootSkill);
+  for (const skillName of ['quiz-me', 'spacex-simplify']) {
+    const extensionSkill = assertAgentSkill(
+      pathFromRoot(`com.openai.codex/skills/${skillName}/SKILL.md`),
+      skillName,
+    );
+    const rootSkill = readFileSync(pathFromRoot(`skills/${skillName}/SKILL.md`), 'utf8');
+    assert.equal(extensionSkill, rootSkill);
+  }
 });

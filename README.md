@@ -5,6 +5,7 @@ A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained
 ## Included skills
 
 - [`spacex-simplify`](skills/spacex-simplify/SKILL.md): applies a SpaceX-inspired engineering review loop to plans, pull requests, specifications, code changes, and architecture proposals.
+- [`quiz-me`](skills/quiz-me/SKILL.md): creates an evidence-based HTML change report and adaptively quizzes the user before they merge or declare substantial work complete.
 
 ## Install in Codex CLI
 
@@ -54,7 +55,9 @@ npx --yes ajv-cli@5.0.0 validate --spec=draft2020 \
   -s /tmp/plugin.schema.json -d plugin.json
 node --test test/plugin-layout.test.mjs
 npx --yes skills-ref@0.1.5 validate skills/spacex-simplify
+npx --yes skills-ref@0.1.5 validate skills/quiz-me
 npx --yes skills-ref@0.1.5 validate com.openai.codex/skills/spacex-simplify
+npx --yes skills-ref@0.1.5 validate com.openai.codex/skills/quiz-me
 ```
 
 `plugin.json` uses the Agent Plugins v1.0.0 schema. Each packaged skill is an immediate child of `skills/` and follows the [Agent Skills specification](https://agentskills.io/specification). For Codex packaging and marketplace behavior, see OpenAI's [plugin packaging guide](https://developers.openai.com/plugins/build/plugins) and [plugin usage guide](https://learn.chatgpt.com/docs/plugins).

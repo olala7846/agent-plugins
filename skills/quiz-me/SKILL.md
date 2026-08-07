@@ -39,21 +39,22 @@ Choose questions that test understanding of the change's actual behavior:
 - Use concrete scenarios and "what happens if" questions rather than recall of filenames or line numbers.
 - Do not ask trick questions or ask about behavior unsupported by the evidence.
 
-After each answer set, mark every answer **Correct**, **Partially correct**, or **Incorrect**. For partial or incorrect answers, explain the missing or mistaken reasoning, cite the relevant evidence, and give the correct mental model. Briefly acknowledge correct reasoning too, so the user knows what to retain.
+After each answer set, mark every answer **Correct**, **Partially correct**, or **Incorrect**. Score them transparently: correct is **1 point**, partially correct is **0.5 points**, and incorrect is **0 points**. For partial or incorrect answers, explain the missing or mistaken reasoning, cite the relevant evidence, and give the correct mental model. Briefly acknowledge correct reasoning too, so the user knows what to retain.
 
-Use the score to adapt the next round:
+Use the score to balance coverage and depth:
 
-- Deepen areas answered partially or incorrectly, beginning with their consequence for correctness, safety, or merge risk.
-- Move to a different important area when the user demonstrates solid understanding.
-- Stop early when the user has answered every material area perfectly; do not pad the quiz.
+- Cover the major areas before spending another question on a partial answer: purpose and primary flow, important boundaries or failure modes, and validation or merge risk.
+- Deepen a partial answer only when it exposes a wrong mental model or affects correctness, safety, behavior, or merge risk. Otherwise, record the correction and move to a different material area.
+- Prioritize an incorrect answer over a partial answer, and prioritize material impact over minor implementation detail.
+- Stop early when every material area is covered and the pass criteria are met; do not pad the quiz.
 - Stop after round five even if gaps remain, then recommend a focused follow-up quiz for the unresolved area.
 
 ## Verdict
 
-End with a concise knowledge map: demonstrated understanding, corrected gaps, and any untested material area. Give exactly one verdict:
+End with a concise knowledge map: demonstrated understanding, corrected gaps, and any untested material area. Include a scorecard with each question's topic, result, points, and the total as both points and percentage. Give exactly one verdict:
 
-- **Ready to proceed** only when every scored answer is correct and all material areas were covered.
-- **Follow-up quiz needed** when a focused area remains unclear or was not covered.
-- **Do not merge or claim completion yet** when an answer reveals a material misunderstanding, unresolved risk, or failed validation.
+- **Ready to proceed** when the user scores at least **80%**, every material area was covered, and no material question was scored incorrect.
+- **Follow-up quiz needed** when the score is below 80%, a material area was not covered, or a material question was incorrect. Name one focused next topic rather than reopening every partial answer.
+- **Do not merge or claim completion yet** when the work has an unresolved correctness, safety, or merge-risk misunderstanding, or validation failed.
 
-For either non-ready verdict, name the next focused quiz topic and the evidence the user should review first. Do not say the user has passed perfectly merely because the quiz ran out of rounds.
+For either non-ready verdict, name the next focused quiz topic and the evidence the user should review first. A partial answer alone does not require a follow-up quiz when the user meets the pass criteria and its correction is non-material.

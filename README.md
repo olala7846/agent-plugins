@@ -4,7 +4,7 @@ A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained
 
 ## Included skills
 
-- [`quiz-me`](skills/quiz-me/SKILL.md): writes an evidence-based HTML change report to a temporary file, then adaptively quizzes the user before they merge or declare substantial work complete.
+- [`quiz-me`](skills/quiz-me/SKILL.md): writes an evidence-based HTML change report to a temporary file, then adaptively quizzes the user with a transparent scorecard before they merge or declare substantial work complete.
 - [`spacex-simplify`](skills/spacex-simplify/SKILL.md): applies a SpaceX-inspired engineering review loop to plans, pull requests, specifications, code changes, and architecture proposals.
 
 ## Usage

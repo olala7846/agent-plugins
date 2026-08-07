@@ -16,9 +16,5 @@
     "agent-skills",
     "software-engineering"
   ],
-  "extensions": {
-    "com.openai.codex": {
-      "pluginRoot": "./com.openai.codex"
-    }
-  }
+  "extensions": {}
 }

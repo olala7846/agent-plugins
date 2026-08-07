@@ -1,78 +1,60 @@
-# Agent Skill Installer
+# olala7846-agent-plugins
 
-This project is a CLI tool for the Agent platform. It allows users to browse and install skills on various AI agents using a beautiful interactive Terminal UI.
+A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained by [Hsin-Cheng Chao](https://github.com/olala7846). Its Codex-specific package is isolated under the `com.openai.codex/` client-extension namespace required by the open specification.
 
-![Skill Installer TUI](cli-usage.png)
+## Included skills
 
-## Features
-- **Multi-Agent Support**: Automatically detects installed AI agents (e.g., Google Antigravity, Gemini CLI, Claude Code).
-- **Interactive TUI Picker**: Beautiful interface to select multiple skills to install or upgrade at once.
-- **Zero-Limit Git Caching**: Bypasses GitHub API rate limits by intelligently cloning repository trees to a local cache (`~/.skill-installer/repos/`) to discover and sync skills instantly.
-- **Rich Skill Previews**: Proactively parses YAML front-matter from local `SKILL.md` files to display interactive descriptions on hover inside the menu.
-- **Smart Installation**: Clones new skills or intelligently upgrades (`git pull`) already installed ones straight into your local agent environment.
-- **Installed Status**: Visually indicates which skills are already installed.
+- [`spacex-simplify`](skills/spacex-simplify/SKILL.md): applies a SpaceX-inspired engineering review loop to plans, pull requests, specifications, code changes, and architecture proposals.
 
-# Usage
+## Install in Codex CLI
 
-`skill-installer start` # Start the skill installer
+Clone the repository, then add its Codex extension bundle as a local marketplace source:
 
-## Setup & Running Locally
-
-1. Install dependencies:
-   ```sh
-   npm install
-   ```
-2. Build the project:
-   ```sh
-   npm run build
-   ```
-3. Run the installer:
-   ```sh
-   npm start
-   # or
-   node dist/index.js start
-   ```
-
-## Global Installation
-
-If you want to install the tool globally so you can use `skill-installer` from anywhere on your machine without navigating to the project directory:
-
-### For Development (Symlink)
-To create a symlink that stays up-to-date with your local changes:
 ```sh
-npm link
+git clone https://github.com/olala7846/agent-plugins.git
+cd agent-plugins
+codex plugin marketplace add ./com.openai.codex
+codex
 ```
 
-### Full Global Install
-To install it statically as a global package:
-```sh
-npm install -g .
+At the Codex prompt, enter `/plugins`, select the **olala7846-agent-plugins** marketplace, install **olala7846-agent-plugins**, and ensure it is enabled. Start a new Codex session after installation.
+
+Use the skill explicitly with:
+
+```text
+$spacex-simplify Review this implementation plan and identify unnecessary complexity.
 ```
 
-After doing either of these, you can simply run:
+Codex can also select the skill automatically when a request matches its description.
+
+To update the cloned source and refresh the marketplace later, run:
+
 ```sh
-skill-installer start
+git pull --ff-only
+codex plugin marketplace upgrade olala7846-agent-plugins
 ```
 
-### Self-Upgrading
-If you installed the tool via symlink from a Git repository, you can easily self-update it by running:
+If you already have this repository checked out, run the marketplace command from its root:
+
 ```sh
-skill-installer upgrade
+codex plugin marketplace add ./com.openai.codex
 ```
-This automatically fetches the latest code from the repository, installs dependencies, and rebuilds the CLI.
 
-## Supported Target Agents
+The package contains no MCP component; installation only makes the bundled skill available. Codex uses `com.openai.codex/.codex-plugin/plugin.json` to discover its extension package and `com.openai.codex/.agents/plugins/marketplace.json` to register the local marketplace. The root `plugin.json` remains the cross-client Agent Plugins v1.0.0 manifest.
 
-- [x] Gemini CLI (`~/.gemini/skills/`) - [Documentation](https://geminicli.com/docs/cli/skills/)
-- [x] Google Antigravity (`~/.gemini/antigravity/skills/`)
-- [x] Claude Code (`~/.claude/skills/`) - [Documentation](https://code.claude.com/docs/en/skills)
-- [x] OpenAI Codex (`~/.agents/skills/`) - [Documentation](https://developers.openai.com/codex/skills)
-- [x] OpenClaw (`~/.openclaw/skills/`) - [Documentation](https://docs.openclaw.ai/tools/skills)
+## Validation
 
-## Skill Repositories Supported
+The repository validates the manifest against the official schema and checks the skills-only layout in GitHub Actions. Run the same checks locally with Node.js 22 or later:
 
-- Bundled skills in this repository (`skills/`)
-- `anthropics/skills` (`skills/`)
-- `garrytan/gstack` (`.agents/skills/`)
-- `openai/skills` (`skills/.curated/`)
-- Future custom skills support planned!
+```sh
+curl --fail --silent --show-error --location \
+  https://agent-plugins.org/schemas/1.0.0/plugin.schema.json \
+  --output /tmp/plugin.schema.json
+npx --yes ajv-cli@5.0.0 validate --spec=draft2020 \
+  -s /tmp/plugin.schema.json -d plugin.json
+node --test test/plugin-layout.test.mjs
+npx --yes skills-ref@0.1.5 validate skills/spacex-simplify
+npx --yes skills-ref@0.1.5 validate com.openai.codex/skills/spacex-simplify
+```
+
+`plugin.json` uses the Agent Plugins v1.0.0 schema. Each packaged skill is an immediate child of `skills/` and follows the [Agent Skills specification](https://agentskills.io/specification). For Codex packaging and marketplace behavior, see OpenAI's [plugin packaging guide](https://developers.openai.com/plugins/build/plugins) and [plugin usage guide](https://learn.chatgpt.com/docs/plugins).

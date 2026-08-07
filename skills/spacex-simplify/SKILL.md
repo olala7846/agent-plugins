@@ -1,9 +1,9 @@
 ---
-name: sapcex-simplify
-description: Use this skill whenever the user asks for /sapcex-simplify, SpaceX-style simplification, plan review, PR review, architecture simplification, scope reduction, implementation critique, or ways to make software work faster, smaller, clearer, or less overbuilt. This skill adapts SpaceX's iterative engineering method to software: challenge requirements, delete unnecessary parts, simplify the remaining design, accelerate feedback loops, and automate only after the workflow is understood. It is especially useful for reviewing plans, specs, GitHub PRs, feature designs, refactors, and agent task plans.
+name: spacex-simplify
+description: "Use this skill whenever the user asks for /spacex-simplify, SpaceX-style simplification, plan review, PR review, architecture simplification, scope reduction, implementation critique, or ways to make software work faster, smaller, clearer, or less overbuilt. This skill adapts SpaceX's iterative engineering method to software: challenge requirements, delete unnecessary parts, simplify the remaining design, accelerate feedback loops, and automate only after the workflow is understood. It is especially useful for reviewing plans, specs, GitHub PRs, feature designs, refactors, and agent task plans."
 ---
 
-# Sapcex Simplify
+# SpaceX Simplify
 
 Apply a software equivalent of SpaceX's rapid iterative engineering method to plans, PRs, specs, code changes, and architecture proposals.
 
@@ -170,11 +170,11 @@ Always separate:
 
 Examples of user requests that should trigger this skill:
 
-- "/sapcex-simplify this PR."
+- "/spacex-simplify this PR."
 - "Review this plan and make it smaller."
 - "What can we delete from this architecture?"
 - "Challenge the requirements in this spec."
 - "Make this implementation more iterative."
 - "Is this automation premature?"
 
-When the user invokes `/sapcex-simplify`, treat that as a request to apply this skill even if the surrounding task is brief.
+When the user invokes `/spacex-simplify`, treat that as a request to apply this skill even if the surrounding task is brief.

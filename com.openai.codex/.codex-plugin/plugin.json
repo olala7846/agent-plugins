@@ -1,0 +1,19 @@
+{
+  "name": "olala7846-agent-plugins",
+  "version": "1.0.0",
+  "description": "A collection of agent skills maintained by olala7846.",
+  "author": {
+    "name": "Hsin-Cheng Chao",
+    "email": "olala7846@gmail.com",
+    "url": "https://github.com/olala7846"
+  },
+  "homepage": "https://github.com/olala7846/agent-plugins",
+  "repository": "https://github.com/olala7846/agent-plugins",
+  "license": "ISC",
+  "keywords": [
+    "agent-plugin",
+    "agent-skills",
+    "software-engineering"
+  ],
+  "skills": "./skills/"
+}

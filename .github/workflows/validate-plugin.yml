@@ -1,0 +1,32 @@
+name: Validate Agent Plugin
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate the official manifest schema
+        run: |
+          curl --fail --silent --show-error --location \
+            https://agent-plugins.org/schemas/1.0.0/plugin.schema.json \
+            --output /tmp/plugin.schema.json
+          npx --yes ajv-cli@5.0.0 validate --spec=draft2020 \
+            -s /tmp/plugin.schema.json -d plugin.json
+      - name: Validate the plugin layout
+        run: node --test test/plugin-layout.test.mjs
+      - name: Validate Agent Skills
+        run: |
+          npx --yes skills-ref@0.1.5 validate skills/spacex-simplify
+          npx --yes skills-ref@0.1.5 validate com.openai.codex/skills/spacex-simplify

@@ -1,11 +1,11 @@
 # olala7846-agent-plugins
 
-A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained by [Hsin-Cheng Chao](https://github.com/olala7846).
+A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained by [Hsin-Cheng Chao](https://github.com/olala7846). Version `0.1.0` is the first beta release.
 
 ## Included skills
 
 - [`quiz-me`](skills/quiz-me/SKILL.md): writes an evidence-based HTML change report to a temporary file, then adaptively quizzes the user with a transparent scorecard before they merge or declare substantial work complete.
-- [`simple-technical-english`](skills/simple-technical-english/SKILL.md): passively guides concise, consistent plain technical English in development conversations and documents.
+- [`repo-init`](skills/repo-init/SKILL.md): interactively initializes repository guidance, including an optional persistent simple-technical-English policy.
 - [`spacex-simplify`](skills/spacex-simplify/SKILL.md): applies a SpaceX-inspired engineering review loop to plans, pull requests, specifications, code changes, and architecture proposals.
 
 ## Usage
@@ -18,20 +18,22 @@ Invoke a skill explicitly when your client supports it, for example:
 /quiz-me Quiz me on PR #123 before I merge it.
 ```
 
-## Validation
+## Development setup
 
-The repository validates its manifest, package layout, and every bundled skill in GitHub Actions. Run the same checks locally with Node.js 22 or later:
+To prepare a clean worktree, use Node.js 22 or later and run:
 
 ```sh
-curl --fail --silent --show-error --location \
-  https://agent-plugins.org/schemas/1.0.0/plugin.schema.json \
-  --output /tmp/plugin.schema.json
-npx --yes ajv-cli@5.0.0 validate --spec=draft2020 \
-  -s /tmp/plugin.schema.json -d plugin.json
-node --test test/plugin-layout.test.mjs
-npx --yes skills-ref@0.1.5 validate skills/quiz-me
-npx --yes skills-ref@0.1.5 validate skills/simple-technical-english
-npx --yes skills-ref@0.1.5 validate skills/spacex-simplify
+./bootstrap.sh
+```
+
+The script installs the pinned local validation tools. This repository has no Git hook configuration to install. Run `npm run validate` after a plugin change.
+
+## Validation
+
+The repository validates its manifest, package layout, and every bundled skill in GitHub Actions. Run the same checks locally after bootstrapping:
+
+```sh
+npm run validate
 ```
 
 `plugin.json` uses the Agent Plugins v1.0.0 schema. Each packaged skill is an immediate child of `skills/` and follows the [Agent Skills specification](https://agentskills.io/specification).

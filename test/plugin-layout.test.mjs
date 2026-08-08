@@ -29,7 +29,7 @@ test('declares the expected Agent Plugin manifest', () => {
   assert.deepEqual(manifest, {
     $schema: 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
     name: 'olala7846-agent-plugins',
-    version: '1.0.0',
+    version: '0.1.0',
     description: 'A collection of agent skills maintained by olala7846.',
     author: {
       name: 'Hsin-Cheng Chao',
@@ -48,7 +48,7 @@ test('contains only immediately discoverable, complete skills', () => {
   const skillsRoot = pathFromRoot('skills');
   const entries = readdirSync(skillsRoot, { withFileTypes: true });
 
-  const skillNames = ['quiz-me', 'simple-technical-english', 'spacex-simplify'];
+  const skillNames = ['quiz-me', 'repo-init', 'spacex-simplify'];
   assert.deepEqual(entries.map((entry) => entry.name).sort(), skillNames);
   assert.ok(entries.every((entry) => entry.isDirectory()));
 
@@ -58,11 +58,23 @@ test('contains only immediately discoverable, complete skills', () => {
   }
 });
 
+test('uses package metadata only for development validation tools', () => {
+  const packageMetadata = JSON.parse(readFileSync(pathFromRoot('package.json'), 'utf8'));
+  const manifest = JSON.parse(readFileSync(pathFromRoot('plugin.json'), 'utf8'));
+
+  assert.equal(packageMetadata.private, true);
+  assert.equal(packageMetadata.version, manifest.version);
+  assert.equal(packageMetadata.bin, undefined);
+  assert.equal(packageMetadata.dependencies, undefined);
+  assert.deepEqual(packageMetadata.devDependencies, {
+    ajv: '8.20.0',
+    'skills-ref': '0.1.5',
+  });
+});
+
 test('does not retain the legacy installer or an MCP component', () => {
   for (const path of [
     'src',
-    'package.json',
-    'package-lock.json',
     'tsconfig.json',
     'eslint.config.js',
     '.lintstagedrc',

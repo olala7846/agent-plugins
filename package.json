@@ -1,7 +1,7 @@
 {
   "name": "olala7846-agent-plugins",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Development tooling for olala7846-agent-plugins.",
   "license": "ISC",
   "engines": {

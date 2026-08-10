@@ -1,6 +1,6 @@
 # olala7846-agent-plugins
 
-A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained by [Hsin-Cheng Chao](https://github.com/olala7846). Version `0.1.0` is the first beta release.
+A skills-only [Agent Plugin](https://agent-plugins.org/specification) maintained by [Hsin-Cheng Chao](https://github.com/olala7846). Version `0.2.0` adds a consistent, hybrid pre-quiz report format for `quiz-me`.
 
 ## Included skills
 

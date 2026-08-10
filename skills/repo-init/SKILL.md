@@ -21,6 +21,28 @@ Do not create, modify, or remove simple-technical-English instructions or refere
 
 ## If the user answers yes
 
+Use user-scoped guidance by default. This makes the policy available in the user's future repositories without adding files to each repository.
+
+### Select the user-guidance destination
+
+1. Identify the active coding client from the user’s request, the current client context, or a documented client setting. Do not guess from an unrelated editor, shell, or directory name.
+2. If the active client is not known, ask which destination the user wants: Codex, Cursor, OpenCode, Claude Code, or repository scope. Wait for the answer before changing a user-level file or setting.
+3. Use the matching documented destination below. Before writing a file, inspect it and preserve unrelated user guidance. Add or update a clearly marked `## Simple Technical English for Software Work` section with the complete bundled guidance from `references/asd-ste100-software-writing.md`.
+4. Do not create or modify `AGENTS.md` or `reference/` in the repository for a user-scoped installation.
+
+| Client | User-scoped destination | Installation rule |
+| --- | --- | --- |
+| Codex | `$CODEX_HOME/AGENTS.md`, or `~/.codex/AGENTS.md` when `CODEX_HOME` is not set | Update the user guidance file. Codex reads this file before project guidance. |
+| Cursor | **Cursor Settings > Rules > User Rules** | Show the complete bundled guidance and direct the user to paste it into User Rules. Cursor manages this plain-text setting; do not guess a settings-file path. |
+| OpenCode | `~/.config/opencode/AGENTS.md` | Update the global guidance file. OpenCode applies it across sessions. |
+| Claude Code | `~/.claude/CLAUDE.md` | Update the user guidance file. Claude Code loads it for every project. |
+
+If the active client provides a supported settings API, use that API only after the user confirms the simple-technical-English policy. Otherwise, report the exact file or settings route and the text that the user must add. Do not claim a client setting changed unless the supported update succeeded.
+
+## If the user requests repository-scoped guidance
+
+Use the repository-scoped flow when the user explicitly asks for it or when the policy must travel with the repository for other contributors.
+
 1. Read the root `AGENTS.md`. Create it if it does not exist. Preserve existing instructions.
 2. Add this short section at the beginning of the root `AGENTS.md`, after an existing title if there is one:
 

@@ -28,6 +28,24 @@ The report must contain:
 
 Use semantic HTML with headings, lists, tables where useful, and accessible labels. Keep it self-contained: no external scripts, stylesheets, tracking, or embedded secrets. Make the report readable for someone who did not author the change. Treat the file as disposable: never add it to the repository or commit it. If `/tmp` is unavailable, ask the user for a destination instead of pasting the full report into the conversation.
 
+### Report presentation
+
+Use the same simple, light theme for every report. Include this fixed CSS in a `<style>` element in the report `<head>`; do not invent a new theme, color palette, or decorative styling for each report:
+
+```css
+:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #ffffff; }
+body { max-width: 960px; margin: 0 auto; padding: 32px 20px; line-height: 1.55; background: #ffffff; }
+h1, h2, h3 { color: #111827; line-height: 1.25; }
+h1 { border-bottom: 2px solid #d1d5db; padding-bottom: 0.4rem; }
+section { margin: 2rem 0; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.65rem; border: 1px solid #d1d5db; text-align: left; vertical-align: top; }
+th { background: #f3f4f6; }
+code { padding: 0.1rem 0.25rem; border-radius: 3px; background: #f3f4f6; }
+```
+
+Use the existing semantic elements to organize content. Do not add themes, gradients, animations, dark-mode rules, custom fonts, or ornamental UI components. Keep any report-specific CSS limited to a necessary layout or accessibility correction.
+
 ## Adaptive quiz loop
 
 Run at most five rounds. Ask one to three questions per round; use fewer when one focused question teaches more than three shallow ones. Number questions and wait for the user's answers before scoring the round.

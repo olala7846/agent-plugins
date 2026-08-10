@@ -58,6 +58,22 @@ test('contains only immediately discoverable, complete skills', () => {
   }
 });
 
+test('documents supported user-scoped guidance destinations', () => {
+  const repoInit = readFileSync(
+    pathFromRoot('skills/repo-init/SKILL.md'),
+    'utf8',
+  );
+
+  for (const destination of [
+    '$CODEX_HOME/AGENTS.md',
+    'Cursor Settings > Rules > User Rules',
+    '~/.config/opencode/AGENTS.md',
+    '~/.claude/CLAUDE.md',
+  ]) {
+    assert.ok(repoInit.includes(destination));
+  }
+});
+
 test('uses package metadata only for development validation tools', () => {
   const packageMetadata = JSON.parse(readFileSync(pathFromRoot('package.json'), 'utf8'));
   const manifest = JSON.parse(readFileSync(pathFromRoot('plugin.json'), 'utf8'));

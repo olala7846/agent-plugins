@@ -45,6 +45,7 @@ code { padding: 0.1rem 0.25rem; border-radius: 3px; background: #f3f4f6; }
 figure { margin: 1.5rem 0; padding: 1rem; border: 1px solid #d1d5db; border-radius: 6px; background: #f9fafb; }
 svg { display: block; width: 100%; height: auto; }
 figcaption { margin-top: 0.75rem; color: #4b5563; }
+.summary { padding: 1rem; border-left: 4px solid #2563eb; background: #eff6ff; }
 ```
 
 Use the existing semantic elements to organize content. Do not add themes, gradients, animations, dark-mode rules, custom fonts, or ornamental UI components. Keep any report-specific CSS limited to a necessary layout or accessibility correction.
@@ -56,6 +57,17 @@ Use a table when it makes an exact comparison, claim-to-evidence map, or repeate
 For diagrams, use a small, self-contained inline SVG inside a `<figure>` with a `<figcaption>`. Make each SVG accessible with `role="img"`, a `<title>`, and a `<desc>` (or equivalent accessible name and description). Keep labels concise, use the fixed report colors, and include the same essential information as nearby text when it is material.
 
 Do not load Mermaid or another diagram library in the report. When a Mermaid-style flow would be useful, translate the needed flow into inline SVG before writing the report. This preserves the report's self-contained, offline-safe behavior while supporting readable flow diagrams.
+
+### Preferred hybrid pre-quiz summary
+
+Before asking the first quiz question, prefer this hybrid report order:
+
+1. A `<section class="summary">` with the goal, final outcome, and the most important before-and-after change.
+2. One small inline SVG diagram when a material flow, relationship, hierarchy, or branching decision needs clarification.
+3. A claim-to-evidence table covering the important behavior, tests or validation, and material risks.
+4. The "What this does not change" section and the preview of the quiz scope.
+
+The summary and evidence table are the default. Omit the diagram when it would not add clarity; do not force one into a simple report. Keep the hybrid summary concise and complete before beginning the adaptive quiz loop.
 
 ## Adaptive quiz loop
 

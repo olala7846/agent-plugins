@@ -30,10 +30,10 @@ Use semantic HTML with headings, lists, tables where useful, and accessible labe
 
 ### Report presentation
 
-Use the same simple, light theme for every report. Include this fixed CSS in a `<style>` element in the report `<head>`; do not invent a new theme, color palette, or decorative styling for each report:
+Use the same simple, preference-aware theme for every report. Include this fixed CSS in a `<style>` element in the report `<head>`; do not invent a new theme, color palette, or decorative styling for each report:
 
 ```css
-:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #ffffff; }
+:root { color-scheme: light dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #ffffff; }
 body { max-width: 960px; margin: 0 auto; padding: 32px 20px; line-height: 1.55; background: #ffffff; }
 h1, h2, h3 { color: #111827; line-height: 1.25; }
 h1 { border-bottom: 2px solid #d1d5db; padding-bottom: 0.4rem; }
@@ -46,9 +46,22 @@ figure { margin: 1.5rem 0; padding: 1rem; border: 1px solid #d1d5db; border-radi
 svg { display: block; width: 100%; height: auto; }
 figcaption { margin-top: 0.75rem; color: #4b5563; }
 .summary { padding: 1rem; border-left: 4px solid #2563eb; background: #eff6ff; }
+
+@media (prefers-color-scheme: dark) {
+  :root { color: #e7e5e4; background: #1c1917; }
+  body { background: #1c1917; }
+  h1, h2, h3 { color: #fafaf9; }
+  h1 { border-color: #57534e; }
+  th, td { border-color: #57534e; }
+  th { background: #292524; }
+  code { background: #302b28; }
+  figure { border-color: #57534e; background: #292524; }
+  figcaption { color: #a8a29e; }
+  .summary { border-left-color: #fbbf24; background: #3b2f12; }
+}
 ```
 
-Use the existing semantic elements to organize content. Do not add themes, gradients, animations, dark-mode rules, custom fonts, or ornamental UI components. Keep any report-specific CSS limited to a necessary layout or accessibility correction.
+Use the existing semantic elements to organize content. Do not add additional themes, gradients, animations, custom fonts, or ornamental UI components. Keep any report-specific CSS limited to a necessary layout or accessibility correction.
 
 ### Tables and diagrams
 

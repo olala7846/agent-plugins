@@ -29,7 +29,7 @@ test('declares the expected Agent Plugin manifest', () => {
   assert.deepEqual(manifest, {
     $schema: 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
     name: 'olala7846-agent-plugins',
-    version: '0.2.0',
+    version: '0.3.0',
     description: 'A collection of agent skills maintained by olala7846.',
     author: {
       name: 'Hsin-Cheng Chao',
@@ -72,6 +72,22 @@ test('documents supported user-scoped guidance destinations', () => {
   ]) {
     assert.ok(repoInit.includes(destination));
   }
+});
+
+test('renders quiz diagrams from Mermaid without shipping a Mermaid runtime', () => {
+  const quizMe = readFileSync(pathFromRoot('skills/quiz-me/SKILL.md'), 'utf8');
+
+  assert.match(quizMe, /write the diagram in Mermaid first/);
+  assert.match(quizMe, /Mermaid `accTitle` and `accDescr` directives/);
+  assert.match(quizMe, /local Mermaid-compatible renderer/);
+  assert.match(quizMe, /transparent background/);
+  assert.match(quizMe, /as a `<title>` and `<desc>`/);
+  assert.match(quizMe, /add the title, description, unique IDs, `aria-labelledby`, `aria-describedby`, and `role="img"` during post-processing/);
+  assert.match(quizMe, /Normalize the generated SVG styles to match the report's light and dark media-query colors/);
+  assert.match(quizMe, /remove generated animation rules while preserving the static diagram/);
+  assert.match(quizMe, /final report must contain only the generated SVG/);
+  assert.match(quizMe, /Do not include Mermaid source, a Mermaid runtime, JavaScript, remote assets, or a rendering service/);
+  assert.match(quizMe, /omit the diagram rather than substituting a hand-drawn SVG/);
 });
 
 test('uses package metadata only for development validation tools', () => {

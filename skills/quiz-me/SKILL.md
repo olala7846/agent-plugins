@@ -67,16 +67,18 @@ Use the existing semantic elements to organize content. Do not add additional th
 
 Use a table when it makes an exact comparison, claim-to-evidence map, or repeated field mapping easier to scan. Use a diagram only when it makes a relationship, sequence, hierarchy, or branching flow materially clearer than prose or a short list. Do not add either as decoration.
 
-For diagrams, use a small, self-contained inline SVG inside a `<figure>` with a `<figcaption>`. Make each SVG accessible with `role="img"`, a `<title>`, and a `<desc>` (or equivalent accessible name and description). Keep labels concise, use the fixed report colors, and include the same essential information as nearby text when it is material.
+For diagrams, write the diagram in Mermaid first, including Mermaid `accTitle` and `accDescr` directives, then render it with a local Mermaid-compatible renderer and embed the rendered SVG inline inside a `<figure>` with a `<figcaption>`. Use Mermaid's native diagram types and layout rather than hand-drawing shapes, paths, or arrow positions in SVG. This supports complete Mermaid flowcharts, sequence diagrams, state diagrams, class diagrams, and entity-relationship diagrams when they clarify the review target.
 
-Do not load Mermaid or another diagram library in the report. When a Mermaid-style flow would be useful, translate the needed flow into inline SVG before writing the report. This preserves the report's self-contained, offline-safe behavior while supporting readable flow diagrams.
+Render Mermaid once before writing the report with a transparent background. Before embedding, inspect the SVG: it must include the `accTitle` and `accDescr` output as a `<title>` and `<desc>`, use colors with sufficient contrast against both report themes, and remain static. If the renderer does not emit those accessibility elements or an appropriate accessible SVG role, add the title, description, unique IDs, `aria-labelledby`, `aria-describedby`, and `role="img"` during post-processing. Normalize the generated SVG styles to match the report's light and dark media-query colors; remove generated animation rules while preserving the static diagram. Otherwise omit the diagram. Do not include Mermaid source, a Mermaid runtime, JavaScript, remote assets, or a rendering service in the HTML. The final report must contain only the generated SVG, so it remains self-contained and works offline. If a local Mermaid renderer is unavailable, omit the diagram rather than substituting a hand-drawn SVG; the summary and evidence table remain the default report format.
+
+Make the embedded SVG accessible with `role="img"`, a `<title>`, and a `<desc>` (or equivalent accessible name and description). Keep labels concise, use the report palette where practical without reducing contrast, and include the same essential information as nearby text when it is material.
 
 ### Preferred hybrid pre-quiz summary
 
 Before asking the first quiz question, prefer this hybrid report order:
 
 1. A `<section class="summary">` with the goal, final outcome, and the most important before-and-after change.
-2. One small inline SVG diagram when a material flow, relationship, hierarchy, or branching decision needs clarification.
+2. One Mermaid-rendered inline SVG diagram when a material flow, relationship, hierarchy, or branching decision needs clarification.
 3. A claim-to-evidence table covering the important behavior, tests or validation, and material risks.
 4. The "What this does not change" section and the preview of the quiz scope.
 

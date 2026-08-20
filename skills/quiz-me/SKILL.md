@@ -1,11 +1,19 @@
 ---
 name: quiz-me
-description: "Use this skill whenever the user asks to be quizzed about a completed task, a pull request, an implementation, or a long agent session; asks whether they understand a change before merging; or invokes /quiz-me. First create an evidence-based HTML change report, then run a short adaptive quiz that establishes whether their knowledge is sufficient to proceed."
+description: "Use this skill whenever the user asks to be quizzed about a completed task, a pull request, an implementation, or a long agent session; asks whether they understand a change before merging; or invokes /quiz-me. First create an evidence-based HTML change report, then hold an open clarification and teach-back phase, and finally run a short adaptive quiz that establishes whether their knowledge is sufficient to proceed."
 ---
 
 # Quiz Me
 
 Help the user understand work that has just been completed before they merge a pull request or treat the work as complete. The goal is understanding, not a trivia contest: locate the boundary of the user's knowledge, explain gaps with evidence, and decide whether it is safe to proceed.
+
+Use three distinct phases in order:
+
+1. Create and present the HTML change report.
+2. Hold a user-led clarification and teach-back conversation.
+3. Run the adaptive quiz and give a verdict.
+
+Treat the user's explicit readiness as the boundary between phases 2 and 3. This gives them time to build and check their mental model before it is assessed.
 
 ## Establish the review target
 
@@ -82,7 +90,26 @@ Before asking the first quiz question, prefer this hybrid report order:
 3. A claim-to-evidence table covering the important behavior, tests or validation, and material risks.
 4. The "What this does not change" section and the preview of the quiz scope.
 
-The summary and evidence table are the default. Omit the diagram when it would not add clarity; do not force one into a simple report. Keep the hybrid summary concise and complete before beginning the adaptive quiz loop.
+The summary and evidence table are the default. Omit the diagram when it would not add clarity; do not force one into a simple report. Keep the hybrid summary concise and complete before beginning the clarification and teach-back phase.
+
+## Clarification and teach-back
+
+After presenting the report, pause before the quiz. Invite the user to do either or both of the following:
+
+- Ask questions about the report, implementation, behavior, risks, or evidence.
+- Explain their current understanding in their own words so it can be checked.
+
+Make the invitation concrete, for example: "Before we start the scored quiz, ask me anything that is unclear, or tell me in your own words how you think the change works. I’ll help refine the mental model. Say `start the quiz` when you’re ready."
+
+During this phase:
+
+- Answer questions from the same evidence used for the report, inspecting more of the review target when needed.
+- Evaluate teach-backs directly: identify what is accurate, what is incomplete, and what is mistaken, then explain the corrected mental model with evidence.
+- Ask a focused follow-up only when it helps resolve an ambiguity in the user's explanation.
+- Keep this conversation unscored. Corrections here prepare the user for assessment and do not count as quiz answers.
+- Continue accepting clarification questions and revised explanations until the user explicitly says they are ready or asks to start the quiz.
+
+Complete this phase only when the user explicitly transitions to the quiz. Then begin the adaptive quiz without treating the clarification conversation as a quiz round or revealing the quiz answers in advance.
 
 ## Adaptive quiz loop
 

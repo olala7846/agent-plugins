@@ -29,7 +29,7 @@ test('declares the expected Agent Plugin manifest', () => {
   assert.deepEqual(manifest, {
     $schema: 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
     name: 'olala7846-agent-plugins',
-    version: '0.3.0',
+    version: '0.4.0',
     description: 'A collection of agent skills maintained by olala7846.',
     author: {
       name: 'Hsin-Cheng Chao',
@@ -48,7 +48,7 @@ test('contains only immediately discoverable, complete skills', () => {
   const skillsRoot = pathFromRoot('skills');
   const entries = readdirSync(skillsRoot, { withFileTypes: true });
 
-  const skillNames = ['quiz-me', 'repo-init', 'spacex-simplify'];
+  const skillNames = ['post-pr-pop-quiz', 'quiz-me', 'repo-init', 'spacex-simplify'];
   assert.deepEqual(entries.map((entry) => entry.name).sort(), skillNames);
   assert.ok(entries.every((entry) => entry.isDirectory()));
 
@@ -72,6 +72,21 @@ test('documents supported user-scoped guidance destinations', () => {
   ]) {
     assert.ok(repoInit.includes(destination));
   }
+});
+
+test('documents a PR header and shuffled pop-quiz answers', () => {
+  const skill = readFileSync(
+    pathFromRoot('skills/post-pr-pop-quiz/SKILL.md'),
+    'utf8',
+  );
+
+  assert.match(skill, /hyperlinked `PR #<number>`/);
+  assert.match(skill, /"pr": \{/);
+  assert.match(skill, /"number": 19,/);
+  assert.match(skill, /"url": "https:\/\/github.com\/olala7846\/agent-plugins\/pull\/19"/);
+  assert.match(skill, /"summary":/);
+  assert.match(skill, /Fisher-Yates shuffle seeded by `pr.number`/);
+  assert.match(skill, /`A` is never the right answer/);
 });
 
 test('renders quiz diagrams from Mermaid without shipping a Mermaid runtime', () => {

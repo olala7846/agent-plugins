@@ -29,7 +29,7 @@ test('declares the expected Agent Plugin manifest', () => {
   assert.deepEqual(manifest, {
     $schema: 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
     name: 'olala7846-agent-plugins',
-    version: '0.4.0',
+    version: '0.5.0',
     description: 'A collection of agent skills maintained by olala7846.',
     author: {
       name: 'Hsin-Cheng Chao',
@@ -48,7 +48,7 @@ test('contains only immediately discoverable, complete skills', () => {
   const skillsRoot = pathFromRoot('skills');
   const entries = readdirSync(skillsRoot, { withFileTypes: true });
 
-  const skillNames = ['post-pr-pop-quiz', 'quiz-me', 'repo-init', 'spacex-simplify'];
+  const skillNames = ['init-coding-agent', 'post-pr-pop-quiz', 'quiz-me', 'spacex-simplify'];
   assert.deepEqual(entries.map((entry) => entry.name).sort(), skillNames);
   assert.ok(entries.every((entry) => entry.isDirectory()));
 
@@ -58,20 +58,26 @@ test('contains only immediately discoverable, complete skills', () => {
   }
 });
 
-test('documents supported user-scoped guidance destinations', () => {
-  const repoInit = readFileSync(
-    pathFromRoot('skills/repo-init/SKILL.md'),
+test('documents personal-scope destinations for each coding agent', () => {
+  const skill = readFileSync(
+    pathFromRoot('skills/init-coding-agent/SKILL.md'),
     'utf8',
   );
 
   for (const destination of [
-    '$CODEX_HOME/AGENTS.md',
-    'Cursor Settings > Rules > User Rules',
-    '~/.config/opencode/AGENTS.md',
     '~/.claude/CLAUDE.md',
+    '$CODEX_HOME/AGENTS.md',
+    'AGENTS.override.md',
+    'Cursor Settings > Rules > User Rules',
   ]) {
-    assert.ok(repoInit.includes(destination));
+    assert.ok(skill.includes(destination));
   }
+  assert.match(skill, /Never write repository files/);
+  assert.ok(
+    existsSync(
+      pathFromRoot('skills/init-coding-agent/references/asd-ste100-software-writing.md'),
+    ),
+  );
 });
 
 test('documents a PR header and shuffled pop-quiz answers', () => {

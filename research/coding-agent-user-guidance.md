@@ -101,3 +101,15 @@ They may be generated from one user-controlled canonical file with copies,
 symlinks, or (for Claude Code) an import. Do not claim that a single symlink
 or path will be auto-loaded by all clients; platform support and path
 conventions differ.
+
+## Update 2026-10-02: Cursor User Rules storage
+
+Cursor User Rules are now stored in the user's Cursor account and synced
+across devices (Cursor 0.50 and later); older Help Center text that calls them
+machine-local is out of date. There is still no supported file or API to write
+them. `~/.cursor/rules/` holds machine-local rules, but Cursor finds it only
+when the opened project is inside the home directory, and it ignores `.mdc`
+files without frontmatter, so it is not a reliable user-level destination.
+User Rules apply to Agent (Chat), not to Inline Edit.
+
+Sources: [Cursor Rules](https://cursor.com/docs/context/rules), [Cursor forum: User Rules storage](https://forum.cursor.com/t/help-center-is-wrong-about-user-rules-being-local-to-this-machine/168642).
